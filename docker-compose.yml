@@ -22,7 +22,6 @@ services:
         - influxdb
       ports:
         - "3000:3000"
-        - "8086:8086"
       environment:
         - GF_SECURITY_ADMIN_PASSWORD=hdeAga76VG6ga7plZ1
         - GF_SECURITY_ADMIN_USER=sitespeedio
