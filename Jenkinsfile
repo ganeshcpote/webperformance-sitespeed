@@ -15,7 +15,7 @@ pipeline {
       steps {
         script{
           if ("${performance_tool}" == "sitespeedtest"){
-            sh 'docker run --rm -v "$(pwd):/sitespeed.io" sitespeedio/sitespeed.io:17.1.1 --graphite.host=192.168.0.7 ${site_url} --slug ${test_name} --graphite.addSlugToKey true -b ${browser}  -d ${crawl_depth} -m ${crawl_maxPages} --outputFolder output --urlAlias doc --budget.configPath budget-old.json --budget.output junit --budget.suppressExitCode true'
+            sh 'docker run --rm -v "$(pwd):/sitespeed.io" sitespeedio/sitespeed.io:17.1.1 --graphite.host=192.168.0.7 ${site_url} --slug ${test_name} --graphite.addSlugToKey true -b ${browser}  -d ${crawl_depth} -m ${crawl_maxPages} --outputFolder output --budget.configPath budget-old.json --budget.output junit --budget.suppressExitCode true'
           }
           else{
             sh 'echo "Invalid target performance tools selection"'
