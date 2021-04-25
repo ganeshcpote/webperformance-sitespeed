@@ -23,7 +23,7 @@ pipeline {
         }
       }
     }
-    stage('Generated Inspector Report') {
+    stage('Generated Budget Report') {
       steps {
         junit allowEmptyResults: true, testResults: 'junit.xml'
          script {
@@ -32,17 +32,22 @@ pipeline {
       }
     }
   }
+ stage('Publish HTML Report') {
+      steps {
+        publishHTML (target: [
+	  allowMissing: false,
+	  alwaysLinkToLastBuild: false,
+	  keepAll: true,
+	  reportDir: 'output',
+	  reportFiles: 'index.html',
+	  reportName: "Web Performance Report"
+	])
+      }
+    }
+  }
   post {
         always {  
             archiveArtifacts artifacts: 'manifest.json, junit.xml'
-			publishHTML (target: [
-			  allowMissing: false,
-			  alwaysLinkToLastBuild: false,
-			  keepAll: true,
-			  reportDir: 'coverage',
-			  reportFiles: 'output/index.html',
-			  reportName: "Web Performance Report"
-			])
             cleanWs()
         }
     }
