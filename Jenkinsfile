@@ -5,7 +5,7 @@ pipeline {
 		string(name: 'test_name', defaultValue: 'test1', description: 'Specify test name') 
 		string(name: 'site_url', defaultValue: 'http://www.google.com', description: 'Target site URL') 
         	choice(name: 'performance_tool', choices: ['sitespeedtest', 'chromeuserexperience', 'lighthouse', 'gpsi'], description: 'Select website performance tool </br> sitespeedtest : Using Sitespeed.io </br> chromeuserexperience : Using Chrome User Experience Report (CrUx) </br> lighthouse : Using Lighthouse </br> gpsi : Using Google Page Speed Insights' )
-		choice(name: 'browser', choices: ['chrome', 'firefx', 'safari', 'edge'], description: 'Select browser for testing' )
+		choice(name: 'browser', choices: ['chrome', 'firefox', 'safari', 'edge'], description: 'Select browser for testing' )
 		choice(name: 'crawl_depth', choices: ['1', '2'], description: 'How deep to crawl (1=only one page, 2=include links from first page, etc.)' )
 		choice(name: 'crawl_maxPages', choices: ['1', '2'], description: 'The max number of pages to test. Default is no limit.)' )
 		choice(name: 'location', choices: ['onprem-mumbai', 'onprem-nagpur', 'azure-mumbai', 'aws-mumbai'], description: 'Select location for testing' )
