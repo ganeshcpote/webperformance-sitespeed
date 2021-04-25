@@ -46,7 +46,6 @@ pipeline {
   }
   post {
         always {  
-            archiveArtifacts artifacts: 'manifest.json, junit.xml'
             cleanWs()
         }
     }
