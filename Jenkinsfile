@@ -2,8 +2,8 @@ pipeline {
   agent any
 
   parameters {
-		input(name: 'test_name', defaultValue: 'test1', description: 'Specify test name') 
-		input(name: 'site_url', defaultValue: 'http://www.google.com', description: 'Target site URL') 
+		string(name: 'test_name', defaultValue: 'test1', description: 'Specify test name') 
+		string(name: 'site_url', defaultValue: 'http://www.google.com', description: 'Target site URL') 
         	choice(name: 'performance_tool', choices: ['sitespeedtest', 'chromeuserexperience', 'lighthouse', 'gpsi'], description: 'Select website performance tool' )
 		choice(name: 'browser', choices: ['chrome', 'firefx', 'safari', 'edge'], description: 'Select browser for testing' )
 		choice(name: 'crawl_depth', choices: ['1', '2'], description: 'How deep to crawl (1=only one page, 2=include links from first page, etc.)' )
