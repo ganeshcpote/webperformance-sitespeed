@@ -1,3 +1,4 @@
+def host= sh(returnStdout: true, script: 'echo ${BUILD_URL/http:\\/\\/} | cut -d "/" -f1').trim()
 pipeline {
   agent any
 
@@ -14,6 +15,7 @@ pipeline {
     stage('Run Performance Test') {
       steps {
         script{
+		println("Hostname : ${host}")
           if ("${performance_tool}" == "sitespeedtest"){
             sh 'docker run --rm -v "$(pwd):/sitespeed.io" sitespeedio/sitespeed.io:17.1.1 --graphite.host=192.168.0.7 ${site_url} --slug ${test_name} --graphite.addSlugToKey true -b ${browser}  -d ${crawl_depth} -m ${crawl_maxPages} --outputFolder output --budget.configPath budget-old.json --budget.output junit --budget.suppressExitCode true'
           }
