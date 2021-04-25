@@ -4,7 +4,7 @@ pipeline {
   parameters {
 		string(name: 'test_name', defaultValue: 'test1', description: 'Specify test name') 
 		string(name: 'site_url', defaultValue: 'http://www.google.com', description: 'Target site URL') 
-        	choice(name: 'performance_tool', choices: ['sitespeedtest', 'chromeuserexperience', 'lighthouse', 'gpsi'], description: 'Select website performance tool \n sitespeedtest : Using Sitespeed.io \n chromeuserexperience : Using Chrome User Experience Report (CrUx) \n lighthouse : Using Lighthouse \n gpsi : Using Google Page Speed Insights' )
+        	choice(name: 'performance_tool', choices: ['sitespeedtest', 'chromeuserexperience', 'lighthouse', 'gpsi'], description: 'Select website performance tool : - \n 1) <b>sitespeedtest </b> : Using Sitespeed.io \n 2) <b> chromeuserexperience </b : Using Chrome User Experience Report (CrUx) \n 3) <b> lighthouse </b> : Using Lighthouse \n 4) <b> gpsi </b> : Using Google Page Speed Insights' )
 		choice(name: 'browser', choices: ['chrome', 'firefox', 'safari', 'edge'], description: 'Select browser for testing' )
 		choice(name: 'crawl_depth', choices: ['1', '2'], description: 'How deep to crawl (1=only one page, 2=include links from first page, etc.)' )
 		choice(name: 'crawl_maxPages', choices: ['1', '2'], description: 'The max number of pages to test. Default is no limit.)' )
