@@ -10,22 +10,27 @@ pipeline {
 		choice(name: 'crawl_maxPages', choices: ['1', '2'], description: 'The max number of pages to test. Default is no limit.)' )
 		choice(name: 'location', choices: ['onprem-mumbai', 'onprem-nagpur', 'azure-mumbai', 'aws-mumbai'], description: 'Select location for testing' )
 	  	choice(name: 'graphite_host', choices: ['192.168.0.7'], description: 'Select graphite DB to push metrics' )
+	        choice(name: 'influxdb_host', choices: ['192.168.0.7'], description: 'Select Influx DB to push metrics' )
     }
   stages {
     stage('Run Performance Test') {
       steps {
         script{
           if ("${performance_tool}" == "sitespeedtest"){
-            sh 'docker run --rm -v "$(pwd):/sitespeed.io" sitespeedio/sitespeed.io:17.1.1 --graphite.host=${graphite_host} ${site_url} --slug ${test_name} --graphite.addSlugToKey true -b ${browser}  -d ${crawl_depth} -m ${crawl_maxPages} --outputFolder output --budget.configPath budget-old.json --budget.output junit --budget.suppressExitCode true'
+            //sh 'docker run --rm -v "$(pwd):/sitespeed.io" sitespeedio/sitespeed.io:17.1.1 --graphite.host=${graphite_host} ${site_url} --slug ${test_name} --graphite.addSlugToKey true -b ${browser}  -d ${crawl_depth} -m ${crawl_maxPages} --outputFolder output --budget.configPath budget-old.json --budget.output junit --budget.suppressExitCode true'
+            sh 'docker run --rm -v "$(pwd):/sitespeed.io" sitespeedio/sitespeed.io:17.1.1 --influxdb.host=${influxdb_host} ${site_url} --influxdb.username=root --influxdb.password=root --influxdb.database=sitespeeddb  --slug ${test_name} -b ${browser}  -d ${crawl_depth} -m ${crawl_maxPages} --outputFolder output --budget.configPath budget-old.json --budget.output junit --budget.suppressExitCode true'		  
           }
 	 else if ("${performance_tool}" == "chromeuserexperience"){
-            sh 'docker run --rm -v "$(pwd):/sitespeed.io" sitespeedio/sitespeed.io:17.1.1 ${site_url} --graphite.host=${graphite_host} --slug ${test_name} --graphite.addSlugToKey true  --crux.key AIzaSyCP3qXPW-ZMa_TjxfOogEgbRsVRAspo4_4 --crux.formFactor ALL --crux.collect ALL --graphite.namespace sitespeed_io.crux  -d ${crawl_depth} -m ${crawl_maxPages} --outputFolder output --budget.configPath budget-old.json --budget.output junit --budget.suppressExitCode true'
+            //sh 'docker run --rm -v "$(pwd):/sitespeed.io" sitespeedio/sitespeed.io:17.1.1 ${site_url} --graphite.host=${graphite_host} --slug ${test_name} --graphite.addSlugToKey true  --crux.key AIzaSyCP3qXPW-ZMa_TjxfOogEgbRsVRAspo4_4 --crux.formFactor ALL --crux.collect ALL --graphite.namespace sitespeed_io.crux  -d ${crawl_depth} -m ${crawl_maxPages} --outputFolder output --budget.configPath budget-old.json --budget.output junit --budget.suppressExitCode true'
+	    sh 'docker run --rm -v "$(pwd):/sitespeed.io" sitespeedio/sitespeed.io:17.1.1 ${site_url} --influxdb.host=${influxdb_host} --influxdb.username=root --influxdb.password=root --influxdb.database=sitespeeddb_curx --slug ${test_name} --crux.key AIzaSyCP3qXPW-ZMa_TjxfOogEgbRsVRAspo4_4 --crux.formFactor ALL --crux.collect ALL -d ${crawl_depth} -m ${crawl_maxPages} --outputFolder output --budget.configPath budget-old.json --budget.output junit --budget.suppressExitCode true'
           }
 	else if ("${performance_tool}" == "lighthouse"){
-            sh 'docker run --shm-size=1g --rm -v "$(pwd):/sitespeed.io" sitespeedio/sitespeed.io:17.0.0-plus1 ${site_url} --graphite.host=${graphite_host} --slug ${test_name}  --plugins.add analysisstorer --graphite.namespace sitespeed_io.lighthouse --plugins.add /lighthouse -d ${crawl_depth} -m ${crawl_maxPages} --outputFolder output'
+            //sh 'docker run --shm-size=1g --rm -v "$(pwd):/sitespeed.io" sitespeedio/sitespeed.io:17.0.0-plus1 ${site_url} --graphite.host=${graphite_host} --slug ${test_name}  --plugins.add analysisstorer --graphite.namespace sitespeed_io.lighthouse --plugins.add /lighthouse -d ${crawl_depth} -m ${crawl_maxPages} --outputFolder output'
+	    sh 'docker run --shm-size=1g --rm -v "$(pwd):/sitespeed.io" sitespeedio/sitespeed.io:17.0.0-plus1 ${site_url} --influxdb.host=${influxdb_host} --influxdb.username=root --influxdb.password=root --influxdb.database=sitespeeddb_lighthouse --slug ${test_name}  --plugins.add analysisstorer --plugins.add /lighthouse -d ${crawl_depth} -m ${crawl_maxPages} --outputFolder output'
           }
 	else if ("${performance_tool}" == "gpsi"){
-            sh 'docker run --rm -v "$(pwd):/sitespeed.io" sitespeedio/sitespeed.io:17.0.0-plus1 ${site_url} --graphite.host=${graphite_host} --slug ${test_name}  --graphite.namespace sitespeed_io.gpsi --plugins.add analysisstorer --plugins.add /gpsi  -d ${crawl_depth} -m ${crawl_maxPages} --outputFolder output --budget.configPath budget-old.json --budget.output junit --budget.suppressExitCode true'
+            //sh 'docker run --rm -v "$(pwd):/sitespeed.io" sitespeedio/sitespeed.io:17.0.0-plus1 ${site_url} --graphite.host=${graphite_host} --slug ${test_name}  --graphite.namespace sitespeed_io.gpsi --plugins.add analysisstorer --plugins.add /gpsi  -d ${crawl_depth} -m ${crawl_maxPages} --outputFolder output --budget.configPath budget-old.json --budget.output junit --budget.suppressExitCode true'
+	    sh 'docker run --rm -v "$(pwd):/sitespeed.io" sitespeedio/sitespeed.io:17.0.0-plus1 ${site_url} --influxdb.host=${influxdb_host} --influxdb.username=root --influxdb.password=root --influxdb.database=sitespeeddb_gpsi --slug ${test_name}  --plugins.add analysisstorer --plugins.add /gpsi  -d ${crawl_depth} -m ${crawl_maxPages} --outputFolder output --budget.configPath budget-old.json --budget.output junit --budget.suppressExitCode true'
           }
           else{
             sh 'echo "Invalid target performance tools selection"'
