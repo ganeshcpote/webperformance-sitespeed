@@ -5,13 +5,13 @@ pipeline {
 		string(name: 'run_id', defaultValue: 'test${BUILD_ID}', description: 'Specify test id') 
 		string(name: 'application_name', defaultValue: 'test${BUILD_ID}', description: 'Specify application name')
 		string(name: 'site_url', defaultValue: 'https://www.google.com', description: 'Target site URL') 
-        choice(name: 'performance_tool', choices: ['sitespeedtest', 'chromeuserexperience', 'lighthouse', 'gpsi'], description: 'Select website performance tool : - \n 1) sitespeedtest : Using Sitespeed.io \n 2) chromeuserexperience : Using Chrome User Experience Report (CrUx) \n 3) lighthouse : Using Lighthouse \n 4) gpsi : Using Google Page Speed Insights' )
+        	choice(name: 'performance_tool', choices: ['sitespeedtest', 'chromeuserexperience', 'lighthouse', 'gpsi'], description: 'Select website performance tool : - \n 1) sitespeedtest : Using Sitespeed.io \n 2) chromeuserexperience : Using Chrome User Experience Report (CrUx) \n 3) lighthouse : Using Lighthouse \n 4) gpsi : Using Google Page Speed Insights' )
 		choice(name: 'browser', choices: ['chrome', 'firefox', 'safari', 'edge'], description: 'Select browser for testing' )
 		choice(name: 'crawl_depth', choices: ['1', '2'], description: 'How deep to crawl (1=only one page, 2=include links from first page, etc.)' )
 		choice(name: 'crawl_maxPages', choices: ['1', '2', '3', '4', '5'], description: 'The max number of pages to test. Default is no limit.)' )
 		choice(name: 'location', choices: ['onprem-mumbai', 'onprem-nagpur', 'azure-mumbai', 'aws-mumbai'], description: 'Select location for testing' )
 	  	choice(name: 'graphite_host', choices: ['192.168.0.7'], description: 'Select graphite DB to push metrics' )
-	    choice(name: 'influxdb_host', choices: ['192.168.0.7'], description: 'Select Influx DB to push metrics' )
+	    	choice(name: 'influxdb_host', choices: ['192.168.0.7'], description: 'Select Influx DB to push metrics' )
 		string(name: 'user_id', defaultValue: 'test', description: 'Specify user name')
     }
   stages {
@@ -40,6 +40,7 @@ pipeline {
         }
       }
     }
+    
     stage('Generated Budget Report') {
       steps {
         junit allowEmptyResults: true, testResults: 'junit.xml'
@@ -63,6 +64,9 @@ pipeline {
   }
   post {
         always {  
+		script{
+			sh 'curl -X PUT -H "Content-Type: application/json" -d \'{"run_id":"${run_id}", "build_status":"${currentBuild.currentResult}"}\' "http://${API_SERVER_IP}:5556/job/updatestatus"'
+		}
             cleanWs()
         }
     }
