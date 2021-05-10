@@ -65,7 +65,7 @@ pipeline {
   post {
         always {  
 		script{
-			sh 'curl -X PUT -H "Content-Type: application/json" -d \'{"run_id":"${run_id}", "build_status":"${currentBuild.currentResult}"}\' "http://${API_SERVER_IP}:5556/job/updatestatus"'
+		   sh "curl -X PUT -H 'Content-Type: application/json' -d '{\"run_id\":\"${run_id}\", \"build_status\":\"${currentBuild.currentResult}\"}' 'http://${API_SERVER_IP}:5556/job/updatestatus'"
 		}
             cleanWs()
         }
