@@ -16,7 +16,7 @@ pipeline {
 		choice(name: 'crawl_maxPages', choices: ['1', '2', '3', '4', '5'], description: 'The max number of pages to test. Default is no limit.)' )
 		choice(name: 'location', choices: ['master', 'azure-pune', 'gcp-mumbai'], description: 'Select location for testing' )
 	  	choice(name: 'graphite_host', choices: ['192.168.0.7'], description: 'Select graphite DB to push metrics' )
-	    	choice(name: 'influxdb_host', choices: ['10.160.0.9', '192.168.0.7'], description: 'Select Influx DB to push metrics' )
+	    	choice(name: 'influxdb_host', choices: ['10.160.0.9', '35.200.214.141 ', '192.168.0.7'], description: 'Select Influx DB to push metrics' )
 		string(name: 'user_id', defaultValue: 'test', description: 'Specify user name')
     }
   stages {
@@ -25,7 +25,7 @@ pipeline {
         script{
           if ("${performance_tool}" == "sitespeedtest"){
             //sh 'docker run --rm -v "$(pwd):/sitespeed.io" sitespeedio/sitespeed.io:17.1.1 --graphite.host=${graphite_host} ${site_url} --slug ${run_id} --graphite.addSlugToKey true -b ${browser}  -d ${crawl_depth} -m ${crawl_maxPages} --outputFolder output --budget.configPath budget-old.json --budget.output junit --budget.suppressExitCode true'
-            sh 'docker run --rm -v "$(pwd):/sitespeed.io" sitespeedio/sitespeed.io:17.1.1 --influxdb.host=${influxdb_host} ${site_url} --influxdb.username=root --influxdb.password=root --influxdb.port=8086 --influxdb.database=sitespeeddb  --slug ${run_id} -b ${browser}  -d ${crawl_depth} -m ${crawl_maxPages} --outputFolder output --budget.suppressExitCode true --influxdb.tags "application_name=${application_name},location=${location},user_id=${user_id},run_id=${run_id}"' 	  
+            sh 'docker run --rm -v "$(pwd):/sitespeed.io" sitespeedio/sitespeed.io:17.1.1 --influxdb.host=${influxdb_host} ${site_url} --influxdb.username=root --influxdb.password=root --influxdb.port=8086 --influxdb.database=sitespeeddb  --slug ${run_id} -b ${browser}  -d ${crawl_depth} -m ${crawl_maxPages} --outputFolder output --influxdb.tags "application_name=${application_name},location=${location},user_id=${user_id},run_id=${run_id}"' 	  
           }
 	 else if ("${performance_tool}" == "chromeuserexperience"){
             //sh 'docker run --rm -v "$(pwd):/sitespeed.io" sitespeedio/sitespeed.io:17.1.1 ${site_url} --graphite.host=${graphite_host} --slug ${run_id} --graphite.addSlugToKey true  --crux.key AIzaSyCP3qXPW-ZMa_TjxfOogEgbRsVRAspo4_4 --crux.formFactor ALL --crux.collect ALL --graphite.namespace sitespeed_io.crux  -d ${crawl_depth} -m ${crawl_maxPages} --outputFolder output --budget.configPath budget-old.json --budget.output junit --budget.suppressExitCode true'
