@@ -1,5 +1,10 @@
 pipeline {
-  agent any
+	agent {
+		node
+	    {
+		label "${location}"
+	    }
+	}
 
   parameters {
 		string(name: 'run_id', defaultValue: 'test${BUILD_ID}', description: 'Specify test id') 
@@ -9,7 +14,7 @@ pipeline {
 		choice(name: 'browser', choices: ['chrome', 'firefox', 'safari', 'edge'], description: 'Select browser for testing' )
 		choice(name: 'crawl_depth', choices: ['1', '2'], description: 'How deep to crawl (1=only one page, 2=include links from first page, etc.)' )
 		choice(name: 'crawl_maxPages', choices: ['1', '2', '3', '4', '5'], description: 'The max number of pages to test. Default is no limit.)' )
-		choice(name: 'location', choices: ['onprem-mumbai', 'onprem-nagpur', 'azure-mumbai', 'aws-mumbai'], description: 'Select location for testing' )
+		choice(name: 'location', choices: ['master', 'azure-pune', 'gcp-mumbai'], description: 'Select location for testing' )
 	  	choice(name: 'graphite_host', choices: ['192.168.0.7'], description: 'Select graphite DB to push metrics' )
 	    	choice(name: 'influxdb_host', choices: ['192.168.0.7'], description: 'Select Influx DB to push metrics' )
 		string(name: 'user_id', defaultValue: 'test', description: 'Specify user name')
