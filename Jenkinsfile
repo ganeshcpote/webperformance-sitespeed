@@ -16,7 +16,7 @@ pipeline {
 		choice(name: 'crawl_maxPages', choices: ['1', '2', '3', '4', '5'], description: 'The max number of pages to test. Default is no limit.)' )
 		choice(name: 'location', choices: ['master', 'azure-pune', 'gcp-mumbai'], description: 'Select location for testing' )
 	  	choice(name: 'graphite_host', choices: ['192.168.0.7'], description: 'Select graphite DB to push metrics' )
-	    	choice(name: 'influxdb_host', choices: ['192.168.0.7'], description: 'Select Influx DB to push metrics' )
+	    	choice(name: 'influxdb_host', choices: ['10.160.0.9', '192.168.0.7'], description: 'Select Influx DB to push metrics' )
 		string(name: 'user_id', defaultValue: 'test', description: 'Specify user name')
     }
   stages {
