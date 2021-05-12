@@ -67,7 +67,7 @@ pipeline {
 	  keepAll: true,
 	  reportDir: 'output',
 	  reportFiles: 'index.html',
-	  reportName: "Web Performance Report - ${performance_tool}"
+	  reportName: "Web Performance Report - ${performance_tools}"
 	])
       }
     }
