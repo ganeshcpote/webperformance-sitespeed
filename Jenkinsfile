@@ -10,15 +10,15 @@ pipeline {
 		string(name: 'run_id', defaultValue: 'test${BUILD_ID}', description: 'Specify test id') 
 		string(name: 'application_name', defaultValue: 'test${BUILD_ID}', description: 'Specify application name')
 		string(name: 'site_url', defaultValue: 'https://www.google.com', description: 'Target site URL') 
-	  	string(name: 'performance_tool', defaultValue: 'sitespeedtest', description: 'Select website performance tool : - \n 1) sitespeedtest : Using Sitespeed.io \n 2) chromeuserexperience : Using Chrome User Experience Report (CrUx) \n 3) lighthouse : Using Lighthouse \n 4) gpsi : Using Google Page Speed Insights') 
-	       	//choice(name: 'performance_tool', choices: ['sitespeedtest', 'chromeuserexperience', 'lighthouse', 'gpsi'], description: 'Select website performance tool : - \n 1) sitespeedtest : Using Sitespeed.io \n 2) chromeuserexperience : Using Chrome User Experience Report (CrUx) \n 3) lighthouse : Using Lighthouse \n 4) gpsi : Using Google Page Speed Insights' )
+	  	//string(name: 'performance_tool', defaultValue: 'sitespeedtest', description: 'Select website performance tool : - \n 1) sitespeedtest : Using Sitespeed.io \n 2) chromeuserexperience : Using Chrome User Experience Report (CrUx) \n 3) lighthouse : Using Lighthouse \n 4) gpsi : Using Google Page Speed Insights') 
+	       	choice(name: 'performance_tool', choices: ['sitespeedtest', 'chromeuserexperience', 'lighthouse', 'gpsi'], description: 'Select website performance tool : - \n 1) sitespeedtest : Using Sitespeed.io \n 2) chromeuserexperience : Using Chrome User Experience Report (CrUx) \n 3) lighthouse : Using Lighthouse \n 4) gpsi : Using Google Page Speed Insights' )
 		
 	  	choice(name: 'browser', choices: ['chrome', 'firefox', 'safari', 'edge'], description: 'Select browser for testing' )
 		choice(name: 'crawl_depth', choices: ['1', '2'], description: 'How deep to crawl (1=only one page, 2=include links from first page, etc.)' )
 		choice(name: 'crawl_maxPages', choices: ['1', '2', '3', '4', '5'], description: 'The max number of pages to test. Default is no limit.)' )
 	  	
-	  	string(name: 'location', defaultValue: 'master', description: 'Select location for testing') 
-		//choice(name: 'location', choices: ['master', 'azure-pune', 'gcp-mumbai'], description: 'Select location for testing' )
+	  	//string(name: 'location', defaultValue: 'master', description: 'Select location for testing') 
+		choice(name: 'location', choices: ['master', 'azure-pune', 'gcp-mumbai'], description: 'Select location for testing' )
 	  
 	  	
 	    	//choice(name: 'influxdb_host', choices: ['10.160.0.9', '35.200.214.141', '192.168.0.7'], description: 'Select Influx DB to push metrics' )
