@@ -80,7 +80,7 @@ pipeline {
   post {
         always {  
 		script{
-		   sh "curl -X PUT -H 'Content-Type: application/json' -d '{\"run_id\":\"${run_id}\", \"build_status\":\"${currentBuild.currentResult}\"}' 'http://${API_SERVER_IP}:8080/job/updatestatus'"
+		   sh "curl -X PUT -H 'Content-Type: application/json' -d '{\"run_id\":\"${run_id}\", \"node_name\":\"${NODE_NAME}\", \"build_status\":\"${currentBuild.currentResult}\"}' 'http://${API_SERVER_IP}:8080/job/updatestatus'"
 		}
             cleanWs()
         }
