@@ -40,6 +40,11 @@ Using Jenkins Pipeline :
 * Create pipeline project and add this repo with Jenkinsfile
 * Following screen appreas to execute the website test
 ![GrafanaPostImport](/images/form.PNG)
+Where dropdown values represents following tools for executions:
+  1) sitespeedtest : Using Sitespeed.io
+  2) chromeuserexperience : Using Chrome User Experience Report (CrUx)
+  3) lighthouse : Using Lighthouse
+  4) gpsi : Using Google Page Speed Insights
 * Once job run is successfull, HTML report is published and availiable in right side navigation panel
 ![GrafanaPostImport](/images/report1.PNG)
 * Following HTML report will be published
