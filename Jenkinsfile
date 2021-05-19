@@ -2,7 +2,7 @@ pipeline {
 	agent any
   parameters {
 	string(name: 'site_url', defaultValue: 'https://www.google.com', description: 'Target site URL') 
-	string(name: 'webhook', defaultValue: 'http://requestbin.net/r/h0aj6bgu', description: 'Target webhook URL') 
+	//string(name: 'webhook', defaultValue: 'http://requestbin.net/r/h0aj6bgu', description: 'Target webhook URL') 
 	choice(name: 'performance_tools', choices: ['sitespeedtest', 'chromeuserexperience', 'lighthouse', 'gpsi'], description: 'Select website performance tool : - \n 1) sitespeedtest : Using Sitespeed.io \n 2) chromeuserexperience : Using Chrome User Experience Report (CrUx) \n 3) lighthouse : Using Lighthouse \n 4) gpsi : Using Google Page Speed Insights' )	  	
 	choice(name: 'browser', choices: ['chrome', 'firefox', 'safari', 'edge'], description: 'Select browser for testing' )
 	choice(name: 'crawl_depth', choices: ['1', '2', '3', '4', '5'], description: 'How deep to crawl (1=only one page, 2=include links from first page, etc.)' )
@@ -13,8 +13,8 @@ pipeline {
       steps {
         script{
           if ("${performance_tools}" == "sitespeedtest"){
-     	    sh 'docker run --privileged=true --rm -i -v "$(pwd):/sitespeed.io" sitespeedio/sitespeed.io-autobuild:webhook ${site_url} --slug ${BUILD_ID} -b ${browser}  -d ${crawl_depth} -m ${crawl_maxPages} --outputFolder output  --webhook.url ${webhook} --resultBaseURL https://myfiles.com/' 
-            //sh 'docker run --privileged=true --rm -i -v "$(pwd):/sitespeed.io" sitespeedio/sitespeed.io:17.1.1 ${site_url} --slug ${BUILD_ID} -b ${browser}  -d ${crawl_depth} -m ${crawl_maxPages} --outputFolder output --budget.configPath budget-old.json --budget.output junit --budget.suppressExitCode true' 	  
+     	    //sh 'docker run --privileged=true --rm -i -v "$(pwd):/sitespeed.io" sitespeedio/sitespeed.io-autobuild:webhook ${site_url} --slug ${BUILD_ID} -b ${browser}  -d ${crawl_depth} -m ${crawl_maxPages} --outputFolder output  --webhook.url ${webhook} --resultBaseURL https://myfiles.com/' 
+            sh 'docker run --privileged=true --rm -i -v "$(pwd):/sitespeed.io" sitespeedio/sitespeed.io:17.1.1 ${site_url} --slug ${BUILD_ID} -b ${browser}  -d ${crawl_depth} -m ${crawl_maxPages} --outputFolder output --budget.configPath budget-old.json --budget.output junit --budget.suppressExitCode true' 	  
           }
 	 else if ("${performance_tools}" == "chromeuserexperience"){
 	    sh 'docker run --privileged=true --rm -i -v "$(pwd):/sitespeed.io" sitespeedio/sitespeed.io:17.1.1 ${site_url}  --slug ${BUILD_ID} --crux.key AIzaSyCP3qXPW-ZMa_TjxfOogEgbRsVRAspo4_4 --crux.formFactor ALL --crux.collect ALL -d ${crawl_depth} -m ${crawl_maxPages} --outputFolder output --budget.configPath budget-old.json --budget.output junit --budget.suppressExitCode true'
