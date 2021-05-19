@@ -22,7 +22,7 @@ pipeline {
 	    sh 'docker run --privileged=true --shm-size=1g --rm -i -v "$(pwd):/sitespeed.io" sitespeedio/sitespeed.io:17.0.0-plus1 ${site_url} --slug ${BUILD_ID}  --plugins.add analysisstorer --plugins.add /lighthouse -d ${crawl_depth} -m ${crawl_maxPages} --outputFolder output --budget.configPath budget-old.json --budget.output junit --budget.suppressExitCode true'
           }
 	else if ("${performance_tools}" == "gpsi"){
-	    sh 'docker run --privileged=true --rm -v -i "$(pwd):/sitespeed.io" sitespeedio/sitespeed.io:17.0.0-plus1 ${site_url}  --slug ${BUILD_ID}  --plugins.add analysisstorer --plugins.add /gpsi  -d ${crawl_depth} -m ${crawl_maxPages} --outputFolder output --budget.configPath budget-old.json --budget.output junit --budget.suppressExitCode true '
+	    sh 'docker run --privileged=true --rm -i -v "$(pwd):/sitespeed.io" sitespeedio/sitespeed.io:17.0.0-plus1 ${site_url}  --slug ${BUILD_ID}  --plugins.add analysisstorer --plugins.add /gpsi  -d ${crawl_depth} -m ${crawl_maxPages} --outputFolder output --budget.configPath budget-old.json --budget.output junit --budget.suppressExitCode true '
           }
           else{
             sh 'echo "Invalid target performance tools selection"'
