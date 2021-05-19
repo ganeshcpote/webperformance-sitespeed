@@ -1,22 +1,5 @@
-**Sitespeed.io is a *complete web performance tool* that helps you measure the performance of your website. What exactly does that mean?**
-
-Before we start telling you all about sitespeed.io you should just try it out:
-
- ```bash
- $ docker run --rm -v "$(pwd)":/sitespeed.io sitespeedio/sitespeed.io https://www.sitespeed.io/
- ```
-
- Or using npm (you need Chrome, Firefox, Edge or Safari installed or Chrome/Firefox on Android)
-
- ```bash
- $ npm i -g sitespeed.io && sitespeed.io https://www.sitespeed.io/
- ```
-
-Ok, now you have tried it, let us tell you more about sitespeed.io. We think of a complete web performance tool as having three key capabilities:
-
- - It test web sites using real browsers, simulating real users connectivity and collect important user centric metrics like Speed Index and First Visual Render.
- - It analyse how your page is built and give feedback how you can make it faster for the end user.
- - It collect and keep data how your pages is built so you easily can track changes.
+# Website performance monitoring tool using Sitespeed.io and Jenkins
+**Sitespeed.io is a *complete web performance tool* that helps you measure the performance of your website.**
 
 **What is sitespeed.io good for?**
 
@@ -53,27 +36,14 @@ When you as user choose to test a URL, this is what happens on a high level:
 
  ## Try it out
 
- Using Docker (use latest Docker):
-
- ```bash
- $ docker run --rm -v "$(pwd)":/sitespeed.io sitespeedio/sitespeed.io https://www.sitespeed.io/
- ```
-
- Or install using npm:
-
- ```bash
- $ npm i -g sitespeed.io
- ```
-
- Or clone the repo and test the latest changes:
-
- ```bash
- $ git clone https://github.com/sitespeedio/sitespeed.io.git
- $ cd sitespeed.io
- $ npm install
- $ bin/sitespeed.js --help
- $ bin/sitespeed.js https://www.sitespeed.io/
-```
+Using Jenkins Pipeline :
+* Create pipeline project and add this repo with Jenkinsfile
+* Following screen appreas to execute the website test
+![GrafanaPostImport](/images/form.PNG)
+* Once job run is successfull, HTML report is published and availiable in right side navigation panel
+![GrafanaPostImport](/images/report1.PNG)
+* Following HTML report will be published
+![GrafanaPostImport](/images/report2.PNG)
 
 ## More details
 
@@ -104,32 +74,5 @@ And look at trends in Grafana:
 Video - easiest using Docker. This gif is optimized, the quality is much better IRL:
 
 <img src="https://raw.githubusercontent.com/sitespeedio/sitespeed.io/main/docs/img/barack.gif">
-
-## Test using WebPageReplay
-We have a special Docker container that comes with [WebPageReplay](https://github.com/catapult-project/catapult/blob/main/web_page_replay_go/README.md) installed. This is a really early alpha release but we think you should try it out.
-
-WebPageReplay will let you replay your page locally (getting rid of server latency etc) and makes it easier to have stable metrics and find front end regressions.
-
-It works like this:
-1. WebPageReplay is started in record mode
-2. Browsertime access the URLs you choose one time (so it is recorded)
-3. WebPageReplay is closed down
-4. WebPageReplay in replay mode is started
-5. Sitespeed.io (using Browsertime) test the URL so many times you choose
-6. WebPageReplay in replay mode is closed down
-
-You can change latency by setting a Docker environment variable. Use REPLAY to turn on the replay functionality.
-
-Default browser is Chrome:
-
-```
-docker run --cap-add=NET_ADMIN --rm -v "$(pwd)":/sitespeed.io -e REPLAY=true -e LATENCY=100 sitespeedio/sitespeed.io -n 5 -b chrome https://en.wikipedia.org/wiki/Barack_Obama
-```
-
-Use Firefox:
-
-```
-docker run --cap-add=NET_ADMIN --rm -v "$(pwd)":/sitespeed.io -e REPLAY=true -e LATENCY=100 sitespeedio/sitespeed.io -n 11 -b firefox https://en.wikipedia.org/wiki/Barack_Obama
-```
 
 <hr>
