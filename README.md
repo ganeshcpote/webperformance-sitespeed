@@ -1,4 +1,4 @@
-# Website Performance Monitoring tool using Sitespeed.io and Jenkins
+# Website Performance Monitoring using Sitespeed.io and Jenkins
 **Sitespeed.io is a *complete web performance tool* that helps you measure the performance of your website.**
 
 **What is sitespeed.io good for?**
